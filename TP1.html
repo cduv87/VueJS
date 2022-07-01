@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+
+        <input id="titre" placeholder="Film" /> <br><br>
+        <button onclick="afficher()"> GO</button> <br><br>
+        <div id="result"></div>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+            integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+        <script>
+           function afficher(){
+            let valeur = document.getElementById('titre').value;
+            // vider le champ input
+            document.getElementById('titre').value ='';
+            // j'ajoute le titre saisi ds l input
+            let url = 'http://www.omdbapi.com/?apikey=efdc2275&s='+valeur;
+            axios.get(url).then(
+                response => {
+                    let note;
+                    console.log('note vidde' +note);
+                    let listefilm = response.data;
+                    let result = document.getElementById('result');
+                    result.innerHTML= ''; // vider la div result
+                    for (let film of listefilm.Search){
+
+                        let url2 = 'http://www.omdbapi.com/?apikey=efdc2275&t='+film.Title;
+                        axios.get(url2).then(
+                        response => { 
+                            let h1 = document.createElement('h1'); // <h1></h1>
+                            h1.innerHTML=film.Title;// <h1>Star Wars</h1>
+                            result.appendChild(h1);
+                            // création d'une balise img
+                            let img = document.createElement('img'); // <img />
+                            img.setAttribute('src',film.Poster); // <img  src = ".."/>
+                            // je met l'image dans la balise result
+                            result.appendChild(img);
+                             
+                            let note = response.data.imdbRating;
+                            console.log('note remplie'+note);
+                            let p = document.createElement('p');
+                            p.innerHTML= 'Note : '+note+'/10'; 
+                            result.appendChild(p);
+                            let ligne = document.createElement('hr');
+                            result.appendChild(ligne);   
+                        }
+                        );
+                       
+
+                    }
+                    
+                }
+            );
+           
+           }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+<input id="titre" />
+<br><br>
+<button onclick="afficher()">  GO </button>
+<br><br>
+<h1 id="demo">ICI</h1>
+<script>
+   function afficher(){
+    let valeur = document.getElementById('titre').value;
+    // vider le champ input
+    document.getElementById('titre').value ='';
+    valeur = valeur.toUpperCase(); // met en majuscule
+    // afficher
+    document.getElementById('demo').innerHTML = valeur;
+    console.log("OK !");
+   }
+</script>
